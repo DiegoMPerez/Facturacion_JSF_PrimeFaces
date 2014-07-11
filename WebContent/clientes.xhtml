@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="./template.xhtml">
+	<ui:define name="contenido">
+		<p:panel header="Ingreso de Nuevo Cliente" id="tingreso"
+			style="font-size:70%">
+			<h:form>
+				<p:panelGrid columns="2">
+					<h:outputText value="CÉDULA: " />
+					<p:inputText value="#{beanClientes.cedula}" required="true"
+						id="codigo" requiredMessage="CÉDULA REQUERIDA"
+						validatorMessage="ERROR EN EL CÓDIGO" />
+					<h:outputText value="Nombres: " />
+					<p:inputText value="#{beanClientes.nombres}"></p:inputText>
+					<h:outputText value="Apellidos" />
+					<p:inputText value="#{beanClientes.apellidos}"></p:inputText>
+					<h:outputText value="Dirección: " />
+					<p:inputText value="#{beanClientes.direccion}" />
+					<p:messages></p:messages>
+				</p:panelGrid>
+				<p:commandButton update=":panTabla" value="INSERTAR"
+					action="#{beanClientes.actionInsertarCliente()}" ajax="false"></p:commandButton>
+			</h:form>
+		</p:panel>
+
+		<p:panel id="mitabla" style="font-size:70%">
+			<p:dataTable id="tabla" border="1" value="#{beanClientes.listaClientes}" var="p"
+				paginator="true" rows="6" style="margin-bottom:10px">
+
+				<p:column id="colum1" headerText="CÉDULA" style="text-align:center;">
+					<h:form>
+						<h:outputText value="#{p.cedulaCliente}"
+							style="font-size: medium;"></h:outputText>
+					</h:form>
+				</p:column>
+				<p:column id="column2" headerText="NOMBRES">
+					<h:outputText value="#{p.nombres}" style="font-size: small;"></h:outputText>
+				</p:column>
+				<p:column id="column3" headerText="APELLIDOS">
+					<h:outputText value="#{p.apellidos}" style="FONT-SIZE: small;"></h:outputText>
+				</p:column>
+				<p:column id="column4" headerText="DIRECCIÓN">
+					<h:outputText value="#{p.direccion}" style="FONT-SIZE: small;"></h:outputText>
+				</p:column>
+
+				<p:column id="colum5" headerText="" style="text-align:center;">
+					<h:form>
+						<p:commandLink action="#{beanClientes.elimiarCliente(p)}" update=":tabla"
+							value="ELIMINAR">
+						</p:commandLink>
+					</h:form>
+				</p:column>
+				<p:column id="colum6" headerText="" style="text-align:center;">
+					<h:form>
+						<p:commandLink action="#{beanClientes.cargarCliente(p)}"
+							sajax="false">
+							<h:outputText value="actualizar"
+								style="COLOR: #43c942; FONT-SIZE: medium;">a</h:outputText>
+						</p:commandLink>
+					</h:form>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

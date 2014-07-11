@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head></h:head>
+<h:body>
+
+	<p:panel header="REGISTRO DE CLIENTES" id="tingreso"
+		style="font-size: 70%">
+		<h:form>
+			<p:panelGrid border="1" columns="2">
+				<h:outputText value="Ingrese su cédula" size="30"></h:outputText>
+				<p:inputText value="#{beanPedidos.cedula}" size="30"></p:inputText>
+				<h:outputText value="Nombres" size="30"></h:outputText>
+				<p:inputText value="#{beanPedidos.nombres}" size="30"></p:inputText>
+				<h:outputText value="Apellidos" size="30"></h:outputText>
+				<p:inputText value="#{beanPedidos.apellidos}" size="30"></p:inputText>
+				<h:outputText value="Direccion"></h:outputText>
+				<p:inputText value="#{beanPedidos.direcion}" size="30"></p:inputText>
+				<h:outputText value="Clave: "></h:outputText>
+				<p:password id="clave" value="#{beanPedidos.clave}" size="30" />
+				<h:outputText value="Clave: "></h:outputText>
+				<p:password id="clave2" value="#{beanPedidos.clave2}" size="30" />
+			</p:panelGrid>
+			<p:message for="clave" />
+			<p:messages id="mensajes" showDetail="true" autoUpdate="true"
+				closable="true" />
+			<p:commandButton value="REGISTRAR"
+				action="#{beanPedidos.registrar()}" />
+			<p:commandButton value="CANCELAR"
+				action="#{beanPedidos.pedidoNull()}" />
+		</h:form>
+	</p:panel>
+</h:body>
+</html>

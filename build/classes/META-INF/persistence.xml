@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="FACTURACION2" transaction-type="RESOURCE_LOCAL">
+		<class>facturacion.model.dao.entities.Cliente</class>
+		<class>facturacion.model.dao.entities.EstadoPedido</class>
+		<class>facturacion.model.dao.entities.FacturaCab</class>
+		<class>facturacion.model.dao.entities.FacturaDet</class>
+		<class>facturacion.model.dao.entities.Kardex</class>
+		<class>facturacion.model.dao.entities.Parametro</class>
+		<class>facturacion.model.dao.entities.PedidoCab</class>
+		<class>facturacion.model.dao.entities.PedidoDet</class>
+		<class>facturacion.model.dao.entities.Producto</class>
+		<class>facturacion.model.dao.entities.TipoMovimiento</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/factbackup"/>
+			<property name="javax.persistence.jdbc.user" value="postgres"/>
+			<property name="javax.persistence.jdbc.password" value="d"/>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+			<property name="javax.persistence.schema-generation.database.action" value="none"/>
+		</properties>
+	</persistence-unit>
+</persistence>

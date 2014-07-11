@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head></h:head>
+<h:body>
+	<p:panel header="Datos del cliente:" style="font-size:70%">
+		<h:outputText
+			value="#{beanPedidos.nombres} #{beanPedidos.apellidos} - #{beanPedidos.direcion}      " />
+		<p:commandLink action="INICIO" value="    SALIR" />
+		<br></br>
+		<br></br>
+		<p:commandLink action="pedidoshistorial" value="HISTORIAL DE PEDIDOS"></p:commandLink>
+
+		<br />
+		<br />
+		<p:carousel value="#{beanPedidos.listaProductos()}"
+			headerText="PRODUCTOS" var="p" itemStyle="width:305px; height:200px"
+			circular="true" numVisible="4">
+			<h:form id="form1">
+				<h:panelGrid columns="1" style="width:100%" cellpadding="5">
+					<f:facet name="header">
+						<h:outputText value="#{p.codigoProducto}" />
+					</f:facet>
+					<h:outputText value="#{p.nombre}" />
+					<h:outputText value="$#{p.precioUnitario}" />
+					<h:outputText value="#{p.descripcion}" />
+					<p:commandButton icon="ui-icon-cart"
+						action="#{beanPedidos.actionInsertarProducto(p)}"
+						update=":carrito" />
+				</h:panelGrid>
+			</h:form>
+			<f:facet name="footer">
+			</f:facet>
+		</p:carousel>
+		<p:messages autoUpdate="true" closable="true"></p:messages>
+		<h:panelGrid columns="2" style="width:50%">
+			<p:panel header="Carrito de compras:" id="carrito">
+				<p:dataTable value="#{beanPedidos.pedidoCabTmp.pedidoDets}"
+					var="det">
+					<p:column>
+						<h:form>
+							<p:commandButton icon="ui-icon-circle-close"
+								action="#{beanPedidos.actionEliminarProductosPedido(det,'e')}"
+								update=":carrito" />
+						</h:form>
+					</p:column>
+					<p:column headerText="NOMBRE PRODUCTO">
+						<h:outputText value="#{det.producto.nombre}" />
+					</p:column>
+					<p:column style="width:60px;text-align:right" headerText="PRECIO">
+						<h:outputText value="#{det.producto.precioUnitario}" />
+					</p:column>
+					<p:column style="width:60px;text-align:right" headerText="CANTIDAD">
+						<h:outputText value="#{det.cantidad}" />
+					</p:column>
+					<p:column style="width:60px;text-align:right">
+						<h:form>
+							<p:commandButton icon="ui-icon-circle-minus"
+								action="#{beanPedidos.actionEliminarProductosPedido(det,'-')}"
+								update=":carrito" />
+							<p:commandButton icon="ui-icon-circle-plus"
+								action="#{beanPedidos.actionEliminarProductosPedido(det,'+')}"
+								update=":carrito" />
+						</h:form>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<h:form>
+				<h:panelGrid style="text-align:center">
+					<h:outputText
+						value="Una vez que seleccione los productos puede confirmar su pedido: " />
+					<p:commandButton icon="ui-icon-circle-arrow-e" value="Continuar"
+						action="#{beanPedidos.actionExistenciaProductosCarrito()}"></p:commandButton>
+				</h:panelGrid>
+			</h:form>
+		</h:panelGrid>
+		<p:separator></p:separator>
+		<h:form>
+			<p:dataGrid value="#{beanPedidos.listaProductos()}" var="p"
+				columns="4" rows="12" paginator="true" style="font-size:70%">
+				<f:facet name="header">
+					<h:outputText value="Seleccione los productos:" />
+				</f:facet>
+				<p:panel header="#{p.codigoProducto}">
+					<h:panelGrid columns="1">
+						<h:outputText value="#{p.nombre}" />
+						<h:outputText value="$#{p.precioUnitario}" />
+						<h:outputText value="#{p.descripcion}" />
+						<p:commandButton icon="ui-icon-cart"
+							action="#{beanPedidos.actionInsertarProducto(p)}"
+							update=":carrito" />
+					</h:panelGrid>
+				</p:panel>
+			</p:dataGrid>
+		</h:form>
+	</p:panel>
+</h:body>
+</html>

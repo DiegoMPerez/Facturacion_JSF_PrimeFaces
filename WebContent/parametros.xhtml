@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="./template.xhtml">
+	<ui:define name="contenido">
+		<p:panel header="ingreso de nuevo parametro" id="tingreso" style="font-size:70%">
+			<h:form>
+				<p:panelGrid columns="2">
+					<h:outputText value="NOMBRE PARÁMETRO: " />
+					<p:inputText value="#{beanParametros.nombreParametro}"
+						required="true" id="codigo" requiredMessage="PARÁMETRO REQUERIDO"
+						validatorMessage="ERROR EN EL PARÁMETRO" />
+					<h:outputText value="VALOR: " />
+					<p:inputText value="#{beanParametros.valorParametro}"></p:inputText>
+					<p:messages></p:messages>
+				</p:panelGrid>
+				<p:commandButton update=":panTabla" value="INSERTAR"
+					action="#{beanParametros.actionInsertarParametro()}" ajax="false"></p:commandButton>
+			</h:form>
+		</p:panel>
+
+		<p:panel id="panTabla" style="font-size:70%">
+			<p:dataTable id='mitabla' border="1"
+				value="#{beanParametros.listaParametros}" var="p" paginator="true"
+				rows="10" style="margin-bottom:20px">
+
+				<p:column id="colum1" headerText="NOMBRE PARÁMETRO"
+					style="text-align:center;">
+					<h:form>
+						<h:outputText value="#{p.nombreParametro}"
+							style="font-size: medium;"></h:outputText>
+					</h:form>
+				</p:column>
+				<p:column id="column2" headerText="VALOR">
+					<h:outputText value="#{p.valorParametro}" style="font-size: small;"></h:outputText>
+				</p:column>
+				<p:column id="colum4" headerText="" style="text-align:center;">
+					<h:form>
+						<h:commandLink action="#{beanParametros.elimiarParametro(p)}">
+							<h:outputText value="eliminar"
+								style="COLOR: #e74646; FONT-SIZE: medium;"></h:outputText>
+						</h:commandLink>
+					</h:form>
+				</p:column>
+				<p:column id="colum5" headerText="" style="text-align:center;">
+					<h:form>
+						<p:commandLink action="#{beanParametros.cargarParametro(p)}"
+							ajax="false">
+							<h:outputText value="actualizar"
+								style="COLOR: #43c942; FONT-SIZE: medium;">a</h:outputText>
+						</p:commandLink>
+					</h:form>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

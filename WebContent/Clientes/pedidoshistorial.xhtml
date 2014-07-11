@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Historial Pedidos</title>
+</h:head>
+<body>
+	<p:panel header="PEDIDOS" style="font-size: 70%">
+		<h:form>
+			<p:commandButton icon="ui-icon-circle-arrow-w" action="pedidos"
+				value="Regresar al carrito de compras"></p:commandButton>
+		</h:form>
+	</p:panel>
+	<p:panel header="Historial de Pedidos" style="font-size: 70%">
+
+		<p:separator></p:separator>
+		<h:outputText
+			value="#{beanPedidos.nombres} #{beanPedidos.apellidos} - #{beanPedidos.direcion}" />
+		<br></br>
+
+		<p:dataTable value="#{beanPedidos.actionListapedidosCab()}"
+			var="pedido" paginator="true" id="tablaA">
+			<p:column headerText="Nro de Pedido">
+				<p:commandButton value="#{pedido.numeroPedido}"
+					oncomplete="PF('dlg2').show();" update=":myDialog, :tablaC"
+					action="#{beanPedidos.asignarPedidoseleccionado(pedido)}" />
+			</p:column>
+			<p:column headerText="Fecha">
+				<h:outputText value="#{pedido.fechaPedido}" />
+			</p:column>
+			<p:column headerText="Observacion">
+				<h:outputText value="#{pedido.observacion}" />
+			</p:column>
+			<p:column headerText="estado Pedido">
+				<h:outputText value="#{pedido.estadoPedido.descripcionEstado}" />
+			</p:column>
+			<p:column headerText="VALOR">
+				<h:outputText value="#{pedido.subtotal}">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Nro de Productos">
+				<h:outputText
+					value="#{beanPedidos.actionCalcularTotalProductosCAB(pedido)}" />
+			</p:column>
+		</p:dataTable>
+		<p:dialog
+			header="LISTA DE PRODUCTOS DE PEDIDO #{beanPedidos.pedidoCabSeleccionado.numeroPedido}"
+			widgetVar="dlg2" modal="true" height="500" width="500" id="myDialog"
+			closeOnEscape="true">
+			<p:dataTable value="#{beanPedidos.actionListapedidosDet()}" var="det"
+				id="tablaC">
+				<p:column headerText="NOMBRE PRODUCTO">
+					<h:outputText value="#{det.producto.nombre}" />
+				</p:column>
+				<p:column style="width:60px;text-align:right" headerText="PRECIO">
+					<h:outputText value="#{det.producto.precioUnitario}" />
+					<f:facet name="footer">
+						<h:outputText
+							value="#{beanPedidos.actionSubtotal(beanPedidos.pedidoCabSeleccionado)}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:outputText>
+					</f:facet>
+				</p:column>
+				<p:column style="width:60px;text-align:right" headerText="CANTIDAD">
+					<h:outputText value="#{det.cantidad}" />
+				</p:column>
+			</p:dataTable>
+		</p:dialog>
+	</p:panel>
+</body>
+</html>

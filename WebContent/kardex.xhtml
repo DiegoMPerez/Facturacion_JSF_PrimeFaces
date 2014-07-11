@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="./template.xhtml">
+	<ui:define name="contenido">
+		<p:panel header="KARDEX" style="font-size:70%">
+			<h:form id="form1">
+				<p:panelGrid columns="2" style="border:none">
+					<p:panelGrid columns="2">
+						<h:outputText value="Nombre"></h:outputText>
+						<p:inputText value="#{beanKardex.producto.nombre }"></p:inputText>
+						<h:outputText value="Descripción"></h:outputText>
+						<p:inputText value="#{beanKardex.producto.descripcion}"></p:inputText>
+						<h:outputText value="Fecha del movimiento:" />
+						<h:outputText value="#{beanKardex.fecha}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+						</h:outputText>
+						<h:outputText value="Tipo de movimiento: " />
+						<p:selectOneMenu value="#{beanKardex.movimiento}">
+							<f:selectItems value="#{beanKardex.listaMovimientos}" />
+						</p:selectOneMenu>
+						<p:commandButton value="NUEVO" update="form1"
+							accesskey="#{beanKardex.actionNuevoMovimiento()}"></p:commandButton>
+						<p:commandButton value="GUARDAR"
+							action="#{beanKardex.actionguardarKardex()}"
+							update=":form2 form1"></p:commandButton>
+					</p:panelGrid>
+					<h:panelGroup>
+						<h:outputText value="Cantidad:  "></h:outputText>
+						<p:spinner value="#{beanKardex.cantidad}" required="true" min="1"
+							size="5" />
+					</h:panelGroup>
+				</p:panelGrid>
+			</h:form>
+			<h:form id="form2">
+				<p:panel>
+					<p:dataTable value="#{beanKardex.listaKardex()}" var="lk"
+						paginator="true" rows="10" style="margin-bottom:20px">
+						<p:column id="colum1" headerText="CÓDIGO"
+							style="text-align:center;">
+							<h:form>
+								<h:outputText value="#{lk.id}" style="font-size: medium;"></h:outputText>
+							</h:form>
+						</p:column>
+						<p:column id="colum2" headerText="Fecha Movimiento"
+							style="text-align:center;">
+							<h:form>
+								<h:outputText value="#{lk.fecha}" style="font-size: medium;"></h:outputText>
+							</h:form>
+						</p:column>
+						<p:column id="colum3" headerText="Movimiento"
+							style="text-align:center;">
+							<h:form>
+								<h:outputText value="#{lk.tipoMovimientoBean.movimiento}"
+									style="font-size: medium;"></h:outputText>
+							</h:form>
+						</p:column>
+						<p:column id="colum4" headerText="Cantidad"
+							style="text-align:center;">
+							<h:form>
+								<h:outputText value="#{lk.cantidad}" style="font-size: medium;"></h:outputText>
+							</h:form>
+						</p:column>
+						<p:column id="colum5" headerText="Stock"
+							style="text-align:center;">
+							<h:form>
+								<h:outputText value="#{lk.stock}" style="font-size: medium;"></h:outputText>
+							</h:form>
+						</p:column>
+						<p:column id="colum6" headerText="Saldo"
+							style="text-align:center;">
+							<h:form>
+								<h:outputText value="#{lk.saldo}" style="font-size: medium;"></h:outputText>
+							</h:form>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

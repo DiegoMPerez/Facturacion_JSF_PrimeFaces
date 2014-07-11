@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="./template.xhtml">
+	<ui:define name="contenido">
+		<p:panel header="EDICIÓN DEL CLIENTE '' #{beanClientes.cedula} ''"
+			style="font-size:70%">
+			<h:form>
+				<p:panelGrid border="1" columns="2">
+					<h:outputText value="Nombres" size="30"></h:outputText>
+					<p:inputText value="#{beanClientes.nombres}" size="30"></p:inputText>
+					<h:outputText value="Apellidos" size="30"></h:outputText>
+					<p:inputText value="#{beanClientes.apellidos}" size="30"></p:inputText>
+					<h:outputText value="Direccion"></h:outputText>
+					<p:inputText value="#{beanClientes.direccion}" size="30"></p:inputText>
+				</p:panelGrid>
+				<h:commandButton value="GUARDAR"
+						action="#{beanClientes.actualizarCliente()}"></h:commandButton>
+						<h:commandButton value="CANCELAR"
+						action="clientes" actionListener="#{beanClientes.Null()}"></h:commandButton>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="./template.xhtml">
+	<ui:define name="contenido">
+		<p:panel id="panTabla" style="font-size:70%; border:none">
+			<p:dataTable id='mitabla' border="1"
+				value="#{beanFactura.listadoFacturasTemp}" var="f" paginator="true"
+				rows="11" style="margin-bottom:20px">
+				<p:column id="colum1" headerText="Código Factura"
+					style="text-align:center;">
+					<p:commandButton value="#{f.numeroFactura}"
+						style="font-size: medium;" onclick="PF('dlg1').show();"></p:commandButton>
+					<p:dialog header="Basic Dialog" widgetVar="dlg1" height="400"
+						width="400">
+						<p:dataTable>
+							<p:column>
+							</p:column>
+						</p:dataTable>
+					</p:dialog>
+				</p:column>
+				<p:column id="column2" headerText="Fecha de Emisión">
+					<h:outputText value="#{f.fechaEmision}" style="font-size: small;"></h:outputText>
+				</p:column>
+				<p:column id="column3" headerText="Cliente">
+					<h:outputText value="#{f.cliente.cedulaCliente}"
+						style="FONT-SIZE: small;"></h:outputText>
+				</p:column>
+				<p:column id="column4" headerText="TOTAL">
+					<h:outputText value="#{f.total}">
+						<f:convertNumber minFractionDigits="2" />
+					</h:outputText>
+				</p:column>
+				<p:column id="colum5" headerText="ESTADO" style="text-align:center;"
+					width="270">
+					<h:form id="estado" style="border:none">
+						<p:panelGrid columns="2" style="border:none">
+							<p:selectOneMenu value="#{f.estado}">
+								<f:selectItems value="#{beanFactura.ListaEstadosFactura()}" />
+							</p:selectOneMenu>
+							<p:commandButton
+								action="#{beanFactura.actionAnulacionFactura(f)}" ajax="true"
+								update="estado" value="ANULAR"
+								actionListener="confirmation.show()">
+								<p:confirm header="Confirmation" message="¿SEGURO?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:panelGrid>
+					</h:form>
+
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog global="true" showEffect="fade">
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check"></p:commandButton>
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close">
+					<p:ajax update="mitabla"></p:ajax>
+				</p:commandButton>
+			</p:confirmDialog>
+
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

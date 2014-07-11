@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Confirmacion</title>
+</h:head>
+<body style="font-size: 70%">
+	<h:form id="form1">
+		<p:panel header="Datos del cliente:" style="font-size:70%">
+			<h:panelGrid columns="2">
+				<h:outputText value="Cédula:" />
+				<h:outputText value="#{beanPedidos.cedula}" />
+				<h:outputText value="Nombres:" />
+				<h:outputText
+					value="#{beanPedidos.nombres} #{beanPedidos.apellidos}" />
+				<h:outputText value="Dirección para despacho:" />
+				<h:outputText value="#{beanPedidos.direcion}" />
+			</h:panelGrid>
+			<h:outputText value="OBSERVACIONES: " />
+			<h:inputText value="#{beanPedidos.observacion}" size="100" />
+		</p:panel>
+		<br />
+		<p:panel header="Detalle de productos:" style="font-size:70%">
+			<p:dataTable value="#{beanPedidos.pedidoCabTmp.pedidoDets}" var="det">
+				<p:column headerText="PRODUCTO">
+					<h:outputText value="#{det.producto.nombre}" />
+				</p:column>
+				<p:column headerText="DETALLE">
+					<h:outputText value="#{det.producto.descripcion}" />
+					<f:facet name="footer">
+						<br />
+						<br />
+						<br />
+						<p:layout style="width:470px;text-align:right; height:25px;">
+							<p:layoutUnit position="center">
+								<h:outputText value="TOTAL DE PRODUCTOS:"
+									style="text-align:right; width:auto" />
+							</p:layoutUnit>
+						</p:layout>
+					</f:facet>
+				</p:column>
+				<p:column headerText="CANTIDAD" style="width:50px;text-align:right">
+					<h:outputText value="#{det.cantidad}" />
+					<f:facet name="footer">
+						<br />
+						<br />
+						<br />
+						<p:layout style="width:50px;text-align:right; height:25px;">
+							<p:layoutUnit position="center">
+								<h:outputText
+									value="#{beanPedidos.actionCalcularTotalProductos()}"
+									style="text-align:center; width:auto" />
+							</p:layoutUnit>
+						</p:layout>
+					</f:facet>
+				</p:column>
+				<p:column headerText="PRECIO" style="width:60px;text-align:right">
+					<h:outputText value="#{det.producto.precioUnitario}" />
+					<f:facet name="footer">
+						<h:outputText value="#{beanPedidos.pedidoCabTmp.subtotal}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:outputText>
+					</f:facet>
+				</p:column>
+			</p:dataTable>
+			<h:panelGrid style="text-align:center" columns="2">
+				<p:commandButton icon="ui-icon-circle-arrow-w" action="pedidos"
+					value="Regresar al carrito de compras"></p:commandButton>
+				<p:commandButton icon="ui-icon-circle-arrow-e"
+					value="Confirmar el pedido" action="#{beanPedidos.guardarPedido()}"
+					ajax="true" actionListener="confirmation.show()">
+					<p:confirm header="Confirmation" message="¿SEGURO?"
+						icon="ui-icon-alert" />
+					</p:commandButton>
+				<p:confirmDialog global="true" showEffect="fade">
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"></p:commandButton>
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close">
+					</p:commandButton>
+				</p:confirmDialog>
+				<p:messages autoUpdate="true"></p:messages>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</body>
+</html>
