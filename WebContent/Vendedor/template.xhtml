@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>INICIO</title>
+</h:head>
+<h:body>
+	<p:panel header="SISTEMA DE FACTURACIÓN"
+		style="font-size:80%; border: none;"></p:panel>
+	<p:tabMenu activeIndex="#{param.i}" style="font-size:70%">
+		<p:menuitem value="Facturación" outcome="facturacion"
+			icon="ui-icon-person">
+			<f:param name="i" value="2" />
+		</p:menuitem>
+	</p:tabMenu>
+	<p:layout style="min-width:400px;min-height:540px;">
+		<p:layoutUnit position="center">
+			<ui:insert name="contenido">
+			</ui:insert>
+		</p:layoutUnit>
+	</p:layout>
+
+</h:body>
+</html>

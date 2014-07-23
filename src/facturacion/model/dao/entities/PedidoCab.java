@@ -1,7 +1,9 @@
 package facturacion.model.dao.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -26,12 +28,19 @@ public class PedidoCab implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_pedido", nullable=false)
 	private Date fechaPedido;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="fecha_despacho", nullable=false)
+	private Date fechaDespacho;
 
 	@Column(length=100)
 	private String observacion;
 
 	@Column(nullable=false, precision=12, scale=2)
 	private BigDecimal subtotal;
+	
+	@Column(length=100)
+	private String causa;
 
 	//bi-directional many-to-one association to EstadoPedido
 	@ManyToOne
@@ -119,5 +128,23 @@ public class PedidoCab implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+
+	public Date getFechaDespacho() {
+		return fechaDespacho;
+	}
+
+	public void setFechaDespacho(Date fechaDespacho) {
+		this.fechaDespacho = fechaDespacho;
+	}
+
+	public String getCausa() {
+		return causa;
+	}
+
+	public void setCausa(String causa) {
+		this.causa = causa;
+	}
+	
+	
 
 }

@@ -43,6 +43,7 @@ public class BeanPedidos implements Serializable {
 		managerDao = new ManagerDAO();
 		listaProductos = managerFacturacion.findAllProductos();
 		managerPedidos = new ManagerPedidos();
+		pedidoCabSeleccionado = new PedidoCab();
 	}
 
 	public String actionComprobarCedula() {
@@ -149,6 +150,8 @@ public class BeanPedidos implements Serializable {
 
 	// calcular el total de productos
 	public int actionCalcularTotalProductosCAB(PedidoCab pc) {
+		System.out.println("*********************"+ pc.getNumeroPedido());
+		pedidoCabSeleccionado = pc;
 		return managerPedidos.calcularTotalProductos(pc);
 	}
 
@@ -202,7 +205,7 @@ public class BeanPedidos implements Serializable {
 	public void asignarPedidoseleccionado(PedidoCab pc) {
 		if (pedidoCabSeleccionado == null)
 			pedidoCabSeleccionado = new PedidoCab();
-		System.out.println(pc.getNumeroPedido());
+		System.out.println(pc.getNumeroPedido()+"PPPPPPPPPPPPPPP");
 		pedidoCabSeleccionado = pc;
 	}
 

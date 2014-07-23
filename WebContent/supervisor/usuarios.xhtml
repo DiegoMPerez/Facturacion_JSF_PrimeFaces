@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="./template.xhtml">
+	<ui:define name="contenido">
+		<p:panel header="Ingreso de Nuevo Cliente" id="tingreso"
+			style="font-size:70%">
+			<h:form>
+				<p:panelGrid columns="2">
+					<h:outputText value="CÓDIGO DE USUARIO: " />
+					<p:inputText value="#{beanLogin.codigoUsuario}" required="true"
+						id="codigo" requiredMessage="CÓDIGO DE USUARIO REQUERIDO"
+						validatorMessage="ERROR EN EL CÓDIGO" />
+					<h:outputText value="Nombres - USUARIO " />
+					<p:inputText value="#{beanLogin.nombresUsuario}"></p:inputText>
+					<h:outputText value="Tipo de Usuario: " />
+					<p:selectOneMenu value="#{beanLogin.tipoUsuario}">
+						<f:selectItem itemLabel="Seleccione uno" itemValue="" />
+						<f:selectItem itemLabel="Vendedor" itemValue="VD" />
+						<f:selectItem itemLabel="Supervisor" itemValue="SP" />
+					</p:selectOneMenu>
+					<h:outputText value="Clave: " />
+					<p:password id="clave" value="#{beanLogin.clave}" size="30" />
+					<h:outputText value="Clave: "></h:outputText>
+					<p:password id="clave2" value="#{beanLogin.clave2}" size="30" />
+				</p:panelGrid>
+				<p:commandButton update=":mitabla, :tingreso" value="INSERTAR"
+					action="#{beanLogin.actionInsertarUsuario()}"></p:commandButton>
+			</h:form>
+			<p:messages autoUpdate="true"></p:messages>
+		</p:panel>
+
+		<p:panel id="mitabla" style="font-size:70%">
+			<p:dataTable id="tabla" border="1"
+				value="#{beanLogin.listaUsuarios()}" var="usuario" paginator="true"
+				rows="6" style="margin-bottom:10px">
+
+				<p:column id="colum1" headerText="CÓDIGO DE USUARIO"
+					style="text-align:center;">
+					<h:form>
+						<h:outputText value="#{usuario.codigoUsuario}"
+							style="font-size: medium;"></h:outputText>
+					</h:form>
+				</p:column>
+				<p:column id="column2" headerText="NOMBRES - USUARIO">
+					<h:outputText value="#{usuario.nombresUsuario}"
+						style="font-size: small;"></h:outputText>
+				</p:column>
+				<p:column id="column3" headerText="TIPO DE USUARIO">
+					<h:outputText value="#{usuario.tipoUsuario}"
+						style="FONT-SIZE: small;"></h:outputText>
+				</p:column>
+				<p:column id="column4" headerText="CLAVE">
+					<p:password value="#{usuario.clave}" disabled="true"></p:password>
+				</p:column>
+				<p:column id="colum5" headerText="" style="text-align:center;">
+					<h:form>
+						<p:commandLink
+							action="#{beanLogin.actionResetPasw(usuario.codigoUsuario)}"
+							update=":tabla" value="Resetear Contraseña">
+						</p:commandLink>
+					</h:form>
+				</p:column>
+				<p:column id="colum6" headerText="" style="text-align:center;">
+					<h:form>
+						<p:commandLink
+							action="#{beanLogin.actionEliminarUsuario(usuario)}"
+							update=":tabla, :mitabla" value="ELIMINAR">
+						</p:commandLink>
+					</h:form>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

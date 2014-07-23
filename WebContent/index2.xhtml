@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-
+transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Facturacion</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:panel header="Sistema de facturacion" style="font-size:70%">
+			<h:panelGrid columns="2">
+				<p:menu>
+					<p:submenu label="Opciones del sistema">
+						<p:menuitem value="Ingreso de usuarios" outcome="login"
+							icon="ui-icon-locked" />
+					</p:submenu>
+					<p:submenu label="Enlaces">
+						<p:menuitem value="Javadoc" url="/doc/index.html"
+							icon="ui-icon-note" />
+						<p:menuitem value="Primefaces" url="http://www.primefaces.org"
+							icon="ui-icon-home" />
+						<p:menuitem value="Iconos"
+							url="http://jquery-ui.googlecode.com/svn/tags/1.6rc5/tests/static/icons.html"
+							icon="ui-icon-heart" />
+					</p:submenu>
+				</p:menu>
+				<p:panel>
+					<p:panel style="text-align:center">
+						<p:commandButton value="¡¡ Entrar a comprar !!"
+							action="clientes/INICIO" icon="ui-icon-cart"></p:commandButton>
+					</p:panel>
+					<ul>
+						<li>Demo realizada con JSF 2.2, Primefaces 5, Eclipse Kepler
+							R2, base de datos PostgreSQL 9.2 y EclipseLink 2.5 (JPA).</li>
+						<li>En la carpeta <b>bdd</b> dentro del proyecto se encuentra
+							el respaldo de la base de datos <b>facturacion</b> que fue
+							utilizada en esta demo.
+						</li>
+						<li>En el manejo de productos se utilizan <b>Actions</b> con
+							parametros, la cual es una nueva caracteristica de JSF 2.x y nos
+							permite evitar <b>binding</b> con los DataTables.
+						</li>
+						<li>Las <b>Entities</b> fueron generadas automaticamente y se
+							personalizo la entidad <b>FacturaCab</b>. En esta clase se
+							adiciono el parametro <b>cascade=CascadeType.ALL</b> en la
+							relacion <b>@OneToMany</b> con <b>FacturaDet</b> para poder
+							insertar en cascada (cabecera y detalles de factura) en una sola
+							transaccion.
+						</li>
+					</ul>
+				</p:panel>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

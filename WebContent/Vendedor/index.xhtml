@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head></h:head>
+<h:body>
+	<h:form id="d">
+		<h:commandLink action="/index" value="ADMINISTRACION" />
+	</h:form>
+	<h:form id="s">
+		<p:panel header="REGISTRO DE USUARIOS" id="tingreso"
+			style="font-size: 70%">
+			<h:panelGrid columns="2">
+				<h:outputText value="Ingrese su cédula: " />
+				<p:inputText value="#{beanPedidos.cedula}" size="10" />
+				<p:commandButton value="siguiente"
+					action="#{beanPedidos.actionComprobarCedula()}"></p:commandButton>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

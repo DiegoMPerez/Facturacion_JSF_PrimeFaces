@@ -11,6 +11,7 @@
 		<class>facturacion.model.dao.entities.PedidoDet</class>
 		<class>facturacion.model.dao.entities.Producto</class>
 		<class>facturacion.model.dao.entities.TipoMovimiento</class>
+		<class>facturacion.model.dao.entities.Usuario</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/factbackup"/>
 			<property name="javax.persistence.jdbc.user" value="postgres"/>

@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
+
 import facturacion.model.dao.entities.Cliente;
 import facturacion.model.dao.entities.EstadoPedido;
 import facturacion.model.dao.entities.FacturaCab;
@@ -321,6 +325,28 @@ public class ManagerPedidos {
 		return cantidadTotal;
 	}
 
+	// anular Pedido
+
+	public void anularPedido(PedidoCab pc) throws Exception {
+
+		if (pc.getCausa().length() == 0)
+			throw new Exception("Ingrese un mensaje de causa de anulación");
+
+		if (pc.getEstadoPedido().getIdEstadoPedido().equals("NV")) {
+			EstadoPedido temp = (EstadoPedido) managerDAO.findById(
+					EstadoPedido.class, "AN");
+			pc.setEstadoPedido(temp);
+			managerDAO.actualizar(pc);
+		} else {
+			if (pc.getEstadoPedido().getIdEstadoPedido().equals("AN")) {
+				throw new Exception("EL PEDIDO YA FUE ANULADO");
+			} else {
+				throw new Exception("EL PEDIDO YA FUE DESPACHADO");
+			}
+		}
+
+	}
+
 	// subtotal
 
 	// ExistenciaProductosCarrito
@@ -345,6 +371,82 @@ public class ManagerPedidos {
 		return managerDAO
 				.findJPQL("SELECT p FROM PedidoCab t JOIN t.pedidoDets p WHERE t.numeroPedido = "
 						+ pc.getNumeroPedido());
+	}
+
+	/**
+	 * Busca un PedidoCab mediante su numero de pedido.
+	 * 
+	 * @param numeroPedido
+	 *            El numero del pedido a buscar.
+	 * @return El PedidoCab encontrado.
+	 * @throws Exception
+	 */
+	public PedidoCab findPedidoCabById(Integer numeroPedido) throws Exception {
+		PedidoCab pedidoCab;
+		pedidoCab = (PedidoCab) managerDAO.findById(PedidoCab.class,
+				numeroPedido);
+		return pedidoCab;
+	}
+
+	/**
+	 * Busca un conjunto de pedidos de compra dentro de un rango de fechas. Para
+	 * buscar todos los pedidos sin excepcion, se debe pasar <b>null</b> en los
+	 * parametros de fechas.
+	 * 
+	 * @param fechaInicio
+	 *            fecha de inicio de la busqueda.
+	 * @param fechaFinal
+	 *            fecha final de la busqueda.
+	 * @return listado de pedidos resultante.
+	 * @throws Exception
+	 */
+	public List<PedidoCab> findPedidoCabByFechas(Date fechaInicio,
+			Date fechaFinal) throws Exception {
+		List<PedidoCab> listado = null;
+		if (fechaInicio == null || fechaFinal == null)
+			return findAllPedidoCab();
+		try {
+			// Debido a que son insuficientes los metodos genericos de
+			// ManagerDAO,
+			// creamos un nuevo Query:
+			EntityManager em = managerDAO.getEntityManager();
+			String sql = "SELECT p FROM PedidoCab p WHERE p.fechaPedido between :fechaInicio and :fechaFinal order by p.numeroPedido asc";
+			Query query = em.createQuery(sql);
+			// pasamos los parametros a la consulta:
+			query.setParameter("fechaInicio", fechaInicio, TemporalType.DATE);
+			query.setParameter("fechaFinal", fechaFinal, TemporalType.DATE);
+			// ejecutamos la consulta:
+			listado = (List<PedidoCab>) query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return listado;
+	}
+
+	/**
+	 * Genera una factura automaticamente mediante la informacion de un pedido
+	 * especifico. Adicionalmente, el pedido que es despachado cambio de estado
+	 * a "OK" (despachado).
+	 * 
+	 * @param numeroPedido
+	 * @throws Exception
+	 */
+	public void despacharPedido(Integer numeroPedido) throws Exception {
+		// recuperamos la informacion del pedido:
+		PedidoCab pedidoCab = findPedidoCabById(numeroPedido);
+		if (pedidoCab.getEstadoPedido().getIdEstadoPedido().equals("OK"))
+			throw new Exception("Ya fue despachado el pedido.");
+		if (pedidoCab.getEstadoPedido().getIdEstadoPedido().equals("AN"))
+			throw new Exception("No puede despachar un pedido anulado.");
+		// creamos la factura automaticamente:
+		managerFacturacion.crearFacturaConPedido(pedidoCab);
+		// si no existen excepciones, actualizamos el estado del pedido:
+		EstadoPedido estado = findEstadoPedidoById("OK");
+		Date d = new Date();
+		pedidoCab.setFechaDespacho(d);
+		pedidoCab.setEstadoPedido(estado);
+		managerDAO.actualizar(pedidoCab);
 	}
 
 }

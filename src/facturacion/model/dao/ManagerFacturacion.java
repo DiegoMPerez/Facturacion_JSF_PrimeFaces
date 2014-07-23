@@ -15,6 +15,8 @@ import facturacion.model.dao.entities.FacturaCab;
 import facturacion.model.dao.entities.FacturaDet;
 import facturacion.model.dao.entities.Kardex;
 import facturacion.model.dao.entities.Parametro;
+import facturacion.model.dao.entities.PedidoCab;
+import facturacion.model.dao.entities.PedidoDet;
 import facturacion.model.dao.entities.Producto;
 import facturacion.model.dao.entities.TipoMovimiento;
 
@@ -607,5 +609,31 @@ public class ManagerFacturacion {
 				fc.getNumeroFactura());
 		fcT.setEstado("A");
 		managerDAO.actualizar(fcT);
+	}
+
+	/**
+	 * Permite generar una factura a partir de un pedido de compra de un
+	 * cliente. Este metodo reutiliza toda la logica de negocio que previamente
+	 * fue implementada en ManagerFacturacion.
+	 * 
+	 * @param pedidoCab
+	 *            El pedido del cliente.
+	 * @throws Exception
+	 */
+	public void crearFacturaConPedido(PedidoCab pedidoCab) throws Exception {
+		if (pedidoCab == null)
+			throw new Exception("Debe crear un pedido primero.");
+		// Creamos una factura temporal:
+		FacturaCab facturaCabTmp = crearFacturaTmp();
+		// Asignamos la informacion de cliente:
+		asignarClienteFacturaTmp(facturaCabTmp, pedidoCab.getCliente()
+				.getCedulaCliente());
+		// Agregamos los productos:
+		for (PedidoDet pd : pedidoCab.getPedidoDets()) {
+			agregarDetalleFacturaTmp(facturaCabTmp, pd.getProducto()
+					.getCodigoProducto(), pd.getCantidad());
+		}
+		// Finalmente guardamos la nueva factura:
+		guardarFacturaTemporal(facturaCabTmp);
 	}
 }

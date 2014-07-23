@@ -2,12 +2,14 @@ package facturacion.model.dao;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 /**
  * Objeto que encapsula la logica basica de acceso a datos mediante JPA. Maneja
@@ -152,6 +154,14 @@ public class ManagerDAO {
 		return listado;
 	}
 
+	public List findEmployees(Date date1, Date date2) {
+		return em
+				.createQuery(
+						"SELECT e from PedidoCab e WHERE e.fechaPedido BETWEEN ?1 AND ?2")
+				.setParameter(1, date1, TemporalType.DATE)
+				.setParameter(2, date2, TemporalType.DATE).getResultList();
+	}
+
 	/**
 	 * Finder generico para buscar un objeto especifico.
 	 * 
@@ -279,5 +289,5 @@ public class ManagerDAO {
 	public static EntityManager getEntityManager() {
 		return em;
 	}
-	
+
 }
